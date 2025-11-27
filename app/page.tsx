@@ -1,65 +1,106 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState } from "react";
+import { Settings2, Film, ShieldCheck } from "lucide-react";
+import { TimeInput } from "./components/TimeInput";
+import { ResultDisplay } from "./components/ResultDisplay";
+import { GuideAccordion } from "./components/GuideAccordion";
 
 export default function Home() {
+  // --- ETATS TEMPORAIRES POUR LE TEST UI ---
+  // On vérifie juste que les inputs répondent bien
+  const [hours, setHours] = useState(1);
+  const [minutes, setMinutes] = useState(30);
+  const [seconds, setSeconds] = useState(0);
+
+  // Simulation d'un résultat pour tester l'affichage
+  const [fakeBitrate, setFakeBitrate] = useState(0);
+  const [is4KWarning, setIs4KWarning] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen p-6 md:p-12 max-w-lg mx-auto bg-background">
+      {/* 1. TEST HEADER */}
+      <header className="mb-8 flex items-center justify-between">
+        <h1 className="text-xl font-bold tracking-tight text-zinc-900">
+          Handbrake Bitrate Calc (Mode Test UI)
+        </h1>
+        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+          <Settings2 className="w-4 h-4 text-primary" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </header>
+
+      {/* 2. TEST RESULT DISPLAY */}
+      {/* On passe des valeurs manuelles pour voir si le composant est beau */}
+      <div className="mb-8 p-4 border border-dashed border-zinc-300 rounded-lg bg-zinc-50">
+        <p className="text-xs text-zinc-400 mb-2 uppercase font-bold">
+          Zone de contrôle manuel (Dev only)
+        </p>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setFakeBitrate(5400)}
+            className="px-3 py-1 bg-primary text-white text-xs rounded hover:bg-primary-hover"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            Simuler Résultat
+          </button>
+          <button
+            onClick={() => setIs4KWarning(!is4KWarning)}
+            className="px-3 py-1 bg-warning text-white text-xs rounded"
+          >
+            Toggle Warning 4K
+          </button>
+        </div>
+      </div>
+
+      <ResultDisplay bitrate={fakeBitrate} isTooLowFor4K={is4KWarning} />
+
+      {/* 3. TEST TIME INPUTS */}
+      <div className="space-y-8 mt-8">
+        <section>
+          <div className="flex items-center gap-2 mb-4 text-zinc-600">
+            <Film className="w-4 h-4 text-primary" />
+            <h2 className="text-sm font-semibold uppercase tracking-wide">
+              Test Durée
+            </h2>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            {/* Si ces inputs fonctionnent, alors le composant est validé */}
+            <TimeInput
+              label="Heures"
+              value={hours}
+              max={99}
+              onChange={setHours}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            <TimeInput
+              label="Minutes"
+              value={minutes}
+              max={59}
+              onChange={setMinutes}
+            />
+            <TimeInput
+              label="Secondes"
+              value={seconds}
+              max={59}
+              onChange={setSeconds}
+            />
+          </div>
+
+          <p className="text-xs text-zinc-400 mt-2 text-center">
+            Vérification : {hours}h {minutes}m {seconds}s
+          </p>
+        </section>
+
+        {/* 4. TEST STYLE GLOBAL (Inputs natifs pour comparer) */}
+        <section className="bg-white p-5 rounded-2xl border border-border shadow-sm space-y-5 opacity-50 pointer-events-none">
+          <h3 className="text-center text-sm text-zinc-400">(test)</h3>
+        </section>
+      </div>
+
+      {/* 5. TEST ACCORDION */}
+      <GuideAccordion />
+
+      <footer className="mt-12 text-center text-xs text-zinc-400">
+        <p>Mode Test UI</p>
+      </footer>
+    </main>
   );
 }
