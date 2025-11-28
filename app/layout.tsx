@@ -4,7 +4,17 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Handbrake Bitrate Calc",
   description: "Calculate exact video bitrate for strict file size limits.",
-  manifest: "/manifest.json", // On prépare le terrain pour la PWA
+  manifest: "/manifest.json", // Lien vers manifest pour PWA
+  icons: {
+    icon: [
+      { url: "/favicon.ico" }, // Pour les vieux navigateurs
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" }, // Standard moderne
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png" }, // Pour iPhone/iPad sur l'écran d'accueil
+    ],
+  },
 };
 
 export const viewport: Viewport = {
@@ -21,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body className="bg-background text-zinc-900 antialiased selection:bg-primary selection:text-white">
         <div id="root">{children}</div>
       </body>
