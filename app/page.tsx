@@ -242,8 +242,24 @@ export default function Home() {
       <GuideAccordion />
 
       <footer className="mt-12 text-center text-xs text-zinc-400">
-        <p>Calculs basés sur l'algorithme standard Handbrake.</p>
-        <p>Optimisé pour l'upload Canva.</p>
+        <div className="space-y-1 mb-4">
+          <p>Calculs basés sur l'algorithme standard Handbrake.</p>
+          <p>Optimisé pour l'upload Canva.</p>
+        </div>
+
+        <div className="pt-4 border-t border-zinc-200 w-1/2 mx-auto">
+          <p>
+            &copy; {new Date().getFullYear()} —{" "}
+            <a
+              href="https://mosquee-amy2.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium hover:text-primary transition-colors"
+            >
+              AMY 2
+            </a>
+          </p>
+        </div>
       </footer>
     </main>
   );
