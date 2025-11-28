@@ -1,5 +1,6 @@
 {
   "name": "handbrake-bitrate-calc",
+  "description": "A specialized PWA to calculate exact video bitrate for strict file size limits. Built with Next.js, TypeScript & Tailwind.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
